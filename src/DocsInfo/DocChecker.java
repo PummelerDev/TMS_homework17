@@ -26,11 +26,13 @@ public class DocChecker {
 		try {
 			BufferedReader reader = Files.newBufferedReader(path);
 			String fileStr = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-			docBase.put(file.getName().replaceAll(".txt", ""), record(fileStr));
+			String fileFolderName = file.getParent().split("\\\\")[file.getParent().split("\\\\").length - 1];
+			docBase.put(fileFolderName + "_" + file.getName().replaceAll(".txt", ""), record(fileStr));
 			correctDocsCounter++;
 		} catch (IOException e) {
 			System.out.println("file not found");
 		}
+		
 	}
 
 	private static Document record(String line) {
