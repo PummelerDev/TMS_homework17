@@ -12,16 +12,22 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class DocChecker {
+	static int correctDocsCounter = 0;
+	static int incorrectDocsCounter = 0;
+	static int chekedDocs = 0;
 
 	public static void check(File file, Map<String, Document> docBase) {
 		Path path = Paths.get(file.toURI());
+		chekedDocs++;
 		if (!file.getName().endsWith(".txt")) {
+			incorrectDocsCounter++;
 			return;
 		}
 		try {
 			BufferedReader reader = Files.newBufferedReader(path);
 			String fileStr = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 			docBase.put(file.getName().replaceAll(".txt", ""), record(fileStr));
+			correctDocsCounter++;
 		} catch (IOException e) {
 			System.out.println("file not found");
 		}
